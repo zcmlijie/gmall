@@ -1,6 +1,6 @@
 package com.zcm.dao;
 
-import com.zcm.pojo.Member;
+import com.zcm.bean.Member;
 import org.springframework.stereotype.Repository;
 
 @Repository

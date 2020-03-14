@@ -1,9 +1,8 @@
-/*
 package com.zcm.service;
 
-import com.zcm.pojo.Member;
+
+import com.zcm.bean.Member;
 
 public interface MemberService {
     void savaAll(Member member);
 }
-*/

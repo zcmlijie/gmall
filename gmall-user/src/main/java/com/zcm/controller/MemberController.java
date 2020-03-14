@@ -1,6 +1,7 @@
 package com.zcm.controller;
 
-import com.zcm.pojo.Member;
+
+import com.zcm.bean.Member;
 import com.zcm.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

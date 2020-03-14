@@ -9,6 +9,7 @@
       <version>1.0-SNAPSHOT</version>
    </parent>
 
+
     <groupId>com.zcm</groupId>
     <artifactId>gmall-user</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -20,6 +21,13 @@
     </properties>
 
     <dependencies>
+     <!--gmall-api-->
+        <dependency>
+            <groupId>com.zcm</groupId>
+            <artifactId>gmall-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>

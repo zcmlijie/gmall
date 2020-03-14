@@ -1,5 +1,4 @@
-/*
-package com.zcm.pojo;
+package com.zcm.bean;
 
 import java.util.Date;
 
@@ -223,4 +222,4 @@ public class Member {
     public void setAccessCode(String accessCode) {
         this.accessCode = accessCode == null ? null : accessCode.trim();
     }
-}*/
+}
