@@ -223,4 +223,5 @@ public class Member {
     public void setAccessCode(String accessCode) {
         this.accessCode = accessCode == null ? null : accessCode.trim();
     }
-}*/
+}
+*/
