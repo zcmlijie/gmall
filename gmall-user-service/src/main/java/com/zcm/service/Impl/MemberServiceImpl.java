@@ -1,10 +1,15 @@
 package com.zcm.service.Impl;
 
+
+import com.alibaba.dubbo.config.annotation.Service;
 import com.zcm.bean.Member;
+
 import com.zcm.dao.MemberMapper;
 import com.zcm.service.MemberService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+
 
 import java.util.Date;
 

@@ -91,7 +91,7 @@
                     <overwrite>true</overwrite>
                     <!-- 自动生成的配置 -->
                     <configurationFile>
-                        src/main/resources/mybatis-generator/mybatis-generator.xml</configurationFile>
+                        ../gmall-user-service/src/main/resources/mybatis-generator/mybatis-generator.xml</configurationFile>
                 </configuration>
             </plugin>
             <!-- mybatis.generator end-->
