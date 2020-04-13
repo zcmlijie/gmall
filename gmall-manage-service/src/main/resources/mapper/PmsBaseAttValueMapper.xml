@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcm.dao.PmsBaseAttValueMapper">
+  <resultMap id="BaseResultMap" type="com.zcm.bean.PmsBaseAttValue">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="value_name" jdbcType="VARCHAR" property="valueName" />
+    <result column="attr_id" jdbcType="INTEGER" property="attrId" />
+    <result column="is_enabled" jdbcType="VARCHAR" property="isEnabled" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, value_name, attr_id, is_enabled
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pms_base_attr_value
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pms_base_attr_value
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zcm.bean.PmsBaseAttValue">
+    insert into pms_base_attr_value (id, value_name, attr_id,
+      is_enabled)
+    values (#{id,jdbcType=INTEGER}, #{valueName,jdbcType=VARCHAR}, #{attrId,jdbcType=INTEGER},
+      #{isEnabled,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zcm.bean.PmsBaseAttValue">
+    insert into pms_base_attr_value
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="valueName != null">
+        value_name,
+      </if>
+      <if test="attrId != null">
+        attr_id,
+      </if>
+      <if test="isEnabled != null">
+        is_enabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="valueName != null">
+        #{valueName,jdbcType=VARCHAR},
+      </if>
+      <if test="attrId != null">
+        #{attrId,jdbcType=INTEGER},
+      </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zcm.bean.PmsBaseAttValue">
+    update pms_base_attr_value
+    <set>
+      <if test="valueName != null">
+        value_name = #{valueName,jdbcType=VARCHAR},
+      </if>
+      <if test="attrId != null">
+        attr_id = #{attrId,jdbcType=INTEGER},
+      </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zcm.bean.PmsBaseAttValue">
+    update pms_base_attr_value
+    set value_name = #{valueName,jdbcType=VARCHAR},
+      attr_id = #{attrId,jdbcType=INTEGER},
+      is_enabled = #{isEnabled,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   <!--批量插入-->
+  <insert id="insertAllValue" parameterType="com.zcm.bean.PmsBaseAttValue"
+  keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+     insert into pms_base_attr_value (id, value_name, attr_id,
+      is_enabled)
+      values
+      <foreach collection="list" item="list" index="index" separator="," >
+        ( #{list.id},
+         #{list.valueName},
+         #{list.attrId},
+         #{list.isEnabled}
+        )
+      </foreach>
+
+  </insert>
+  <!--批量修改-->
+  <update id="updateAllValue" parameterType="com.zcm.bean.PmsBaseAttValue">
+    <foreach collection="list" item="list" index="index" separator=";">
+      update pms_base_attr_value set value_name=#{list.valueName}
+      where id=#{list.id}
+      </foreach>
+  </update>
+
+
+  <select id="PmsBaseAttLists" parameterType="java.lang.Integer"
+          resultType="com.zcm.bean.PmsBaseAttValue">
+     select <include refid="Base_Column_List" />
+   from  pms_base_attr_value
+    where attr_id=#{attId}
+
+  </select>
+  <!--根据att_id查询属性值列表-->
+  <select id="selectByAttId" parameterType="java.lang.Integer"
+          resultType="com.zcm.bean.PmsBaseAttValue">
+    select <include refid="Base_Column_List" />
+    from pms_base_attr_value
+    where attr_id in
+    <foreach collection="list" item="item" index="index"
+             separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </select>
+</mapper>

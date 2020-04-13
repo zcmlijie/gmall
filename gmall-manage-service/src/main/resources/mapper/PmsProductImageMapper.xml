@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcm.dao.PmsProductImageMapper">
+  <resultMap id="BaseResultMap" type="com.zcm.bean.PmsProductImage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="img_name" jdbcType="VARCHAR" property="imgName" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, product_id, img_name, img_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pms_product_image
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pms_product_image
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zcm.bean.PmsProductImage">
+    insert into pms_product_image (id, product_id, img_name,
+      img_url)
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{imgName,jdbcType=VARCHAR},
+      #{imgUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zcm.bean.PmsProductImage">
+    insert into pms_product_image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="imgName != null">
+        img_name,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="imgName != null">
+        #{imgName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zcm.bean.PmsProductImage">
+    update pms_product_image
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="imgName != null">
+        img_name = #{imgName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zcm.bean.PmsProductImage">
+    update pms_product_image
+    set product_id = #{productId,jdbcType=INTEGER},
+      img_name = #{imgName,jdbcType=VARCHAR},
+      img_url = #{imgUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+<!--批量插入图片路径-->
+  <insert id="insertBatch" parameterType="com.zcm.bean.PmsProductImage">
+    insert into pms_product_image(id, product_id, img_name,
+      img_url)
+    values
+    <foreach collection="list" item="item"
+             index="index" separator=",">
+      (#{item.id},
+      #{item.productId},
+      #{item.imgName},
+      #{item.imgUrl})
+    </foreach>
+  </insert>
+</mapper>

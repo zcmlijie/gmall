@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcm.dao.PmsProductInfoMapper">
+  <resultMap id="BaseResultMap" type="com.zcm.bean.PmsProductInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="catalog3_id" jdbcType="INTEGER" property="catalog3Id" />
+    <result column="tm_id" jdbcType="INTEGER" property="tmId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, product_name, description, catalog3_id, tm_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pms_product_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pms_product_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zcm.bean.PmsProductInfo"
+          useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into pms_product_info (id, product_name, description,
+      catalog3_id, tm_id)
+    values (#{id,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{catalog3Id,jdbcType=INTEGER}, #{tmId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zcm.bean.PmsProductInfo">
+    insert into pms_product_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="catalog3Id != null">
+        catalog3_id,
+      </if>
+      <if test="tmId != null">
+        tm_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog3Id != null">
+        #{catalog3Id,jdbcType=INTEGER},
+      </if>
+      <if test="tmId != null">
+        #{tmId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zcm.bean.PmsProductInfo">
+    update pms_product_info
+    <set>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog3Id != null">
+        catalog3_id = #{catalog3Id,jdbcType=INTEGER},
+      </if>
+      <if test="tmId != null">
+        tm_id = #{tmId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zcm.bean.PmsProductInfo">
+    update pms_product_info
+    set product_name = #{productName,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      catalog3_id = #{catalog3Id,jdbcType=INTEGER},
+      tm_id = #{tmId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据条件查询分页-->
+  <select id="getPmsProductPageBean" parameterType="Map"
+          resultType="com.zcm.bean.PmsProductInfo">
+select
+    <include refid="Base_Column_List" />
+    from pms_product_info
+    where
+     product_name like  concat('%',#{name},'%')
+     <if test="id!=null and id!=''">
+       and id like  concat('%',#{id},'%')
+     </if>
+
+ limit #{start},#{size}
+  </select>
+
+  <select id="PageBeanCount" resultType="java.lang.Integer">
+    select count(*) from pms_product_info
+    where
+     product_name like  concat('%',#{name},'%')
+     <if test="id!=null and id!=''">
+       and id like  concat('%',#{id},'%')
+     </if>
+
+  </select>
+  <!--平台销售属性字典-->
+  <select id="selctAll" resultType="com.zcm.bean.PmsBaseSaleAtt">
+ select  id ,NAME from pms_base_sale_attr
+  </select>
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcm.dao.PmsBaseCatalong2Mapper">
+  <resultMap id="BaseResultMap" type="com.zcm.bean.PmsBaseCatalong2">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="catalog1_id" jdbcType="INTEGER" property="catalog1Id" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, NAME, catalog1_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pms_base_catalog2
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pms_base_catalog2
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zcm.bean.PmsBaseCatalong2">
+    insert into pms_base_catalog2 (id, NAME, catalog1_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{catalog1Id,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zcm.bean.PmsBaseCatalong2">
+    insert into pms_base_catalog2
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="catalog1Id != null">
+        catalog1_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog1Id != null">
+        #{catalog1Id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zcm.bean.PmsBaseCatalong2">
+    update pms_base_catalog2
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog1Id != null">
+        catalog1_id = #{catalog1Id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zcm.bean.PmsBaseCatalong2">
+    update pms_base_catalog2
+    set NAME = #{name,jdbcType=VARCHAR},
+      catalog1_id = #{catalog1Id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--获取二级分类-->
+  <select id="getPmsBaseCatalog2list" parameterType="java.lang.Integer"
+          resultType="com.zcm.bean.PmsBaseCatalong2">
+
+    select id, NAME, catalog1_id as catalog1Id from pms_base_catalog2
+    where 1=1
+    and  catalog1_id=#{id1}
+  </select>
+</mapper>

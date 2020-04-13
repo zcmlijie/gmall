@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcm.dao.PmsProductSaleAttrMapper">
+  <resultMap id="BaseResultMap" type="com.zcm.bean.PmsProductSaleAttr">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="sale_attr_id" jdbcType="INTEGER" property="saleAttrId" />
+    <result column="sale_attr_name" jdbcType="VARCHAR" property="saleAttrName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, product_id, sale_attr_id, sale_attr_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pms_product_sale_attr
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pms_product_sale_attr
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zcm.bean.PmsProductSaleAttr"
+          useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into pms_product_sale_attr (id, product_id, sale_attr_id,
+      sale_attr_name)
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{saleAttrId,jdbcType=INTEGER},
+      #{saleAttrName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zcm.bean.PmsProductSaleAttr">
+    insert into pms_product_sale_attr
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="saleAttrId != null">
+        sale_attr_id,
+      </if>
+      <if test="saleAttrName != null">
+        sale_attr_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="saleAttrId != null">
+        #{saleAttrId,jdbcType=INTEGER},
+      </if>
+      <if test="saleAttrName != null">
+        #{saleAttrName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zcm.bean.PmsProductSaleAttr">
+    update pms_product_sale_attr
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="saleAttrId != null">
+        sale_attr_id = #{saleAttrId,jdbcType=INTEGER},
+      </if>
+      <if test="saleAttrName != null">
+        sale_attr_name = #{saleAttrName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zcm.bean.PmsProductSaleAttr">
+    update pms_product_sale_attr
+    set product_id = #{productId,jdbcType=INTEGER},
+      sale_attr_id = #{saleAttrId,jdbcType=INTEGER},
+      sale_attr_name = #{saleAttrName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--批量插入-->
+  <insert id="insertBatch" parameterType="com.zcm.bean.PmsProductSaleAttr"
+   useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert  into pms_product_sale_attr (id, product_id, sale_attr_id,
+      sale_attr_name)
+      values
+      <foreach collection="list" index="index" item="item"
+       separator=",">
+        (
+        #{item.id},
+        #{item.productId},
+        #{item.saleAttrId},
+        #{item.saleAttrName}
+        )
+      </foreach>
+  </insert>
+</mapper>

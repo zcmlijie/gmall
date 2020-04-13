@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcm.dao.PmsBaseAttInfoMapper">
+  <resultMap id="BaseResultMap" type="com.zcm.bean.PmsBaseAttInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="attr_name" jdbcType="VARCHAR" property="attrName" />
+    <result column="catalog3_id" jdbcType="INTEGER" property="catalog3Id" />
+    <result column="is_enabled" jdbcType="VARCHAR" property="isEnabled" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, attr_name, catalog3_id, is_enabled
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pms_base_attr_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pms_base_attr_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zcm.bean.PmsBaseAttInfo"
+          useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into pms_base_attr_info (id, attr_name, catalog3_id,
+      is_enabled)
+    values (#{id,jdbcType=INTEGER}, #{attrName,jdbcType=VARCHAR}, #{catalog3Id,jdbcType=INTEGER},
+      #{isEnabled,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zcm.bean.PmsBaseAttInfo">
+    insert into pms_base_attr_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="attrName != null">
+        attr_name,
+      </if>
+      <if test="catalog3Id != null">
+        catalog3_id,
+      </if>
+      <if test="isEnabled != null">
+        is_enabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="attrName != null">
+        #{attrName,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog3Id != null">
+        #{catalog3Id,jdbcType=INTEGER},
+      </if>
+      <if test="isEnabled != null">
+        #{isEnabled,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zcm.bean.PmsBaseAttInfo">
+    update pms_base_attr_info
+    <set>
+      <if test="attrName != null">
+        attr_name = #{attrName,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog3Id != null">
+        catalog3_id = #{catalog3Id,jdbcType=INTEGER},
+      </if>
+      <if test="isEnabled != null">
+        is_enabled = #{isEnabled,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zcm.bean.PmsBaseAttInfo">
+    update pms_base_attr_info
+    set attr_name = #{attrName,jdbcType=VARCHAR},
+      catalog3_id = #{catalog3Id,jdbcType=INTEGER},
+      is_enabled = #{isEnabled,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--查询平台属性-->
+  <select id="getPmsBaseAtt" parameterType="java.lang.Integer"
+          resultType="com.zcm.bean.PmsBaseAttInfo">
+    select id, attr_name attrName, catalog3_id catalog3Id, is_enabled isEnabled
+    from pms_base_attr_info
+    where catalog3_id=#{id3}
+  </select>
+  <!--分页查询-->
+  <select id="selectAllPageBean" parameterType="Map"
+          resultType="com.zcm.bean.PmsBaseAttInfo">
+select id, attr_name attrName, catalog3_id catalog3Id, is_enabled isEnabled
+ from pms_base_attr_info
+ order by id desc
+ limit #{start},#{size}
+
+  </select>
+  <!--查询总条数-->
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from pms_base_attr_info
+    order by id desc
+  </select>
+<select id="selectList" resultType="com.zcm.bean.PmsBaseAttInfo">
+  select id, attr_name attrName, catalog3_id catalog3Id, is_enabled isEnabled
+  from pms_base_attr_info
+</select>
+</mapper>
