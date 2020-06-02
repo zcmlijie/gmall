@@ -43,6 +43,14 @@ public class SPUServiceImpl implements SPUServcie {
         map.put("name",name);
         map.put("id",id);
         List<PmsProductInfo> lsit=pmsProductInfoMapper.getPmsProductPageBean(map);
+        for(PmsProductInfo ps:lsit){
+            ps.setPmsProductSaleAttrList
+                    (pmsProductSaleAttrMapper.slectPmsProductSaleAttr(ps.getId()));
+            for(PmsProductSaleAttr pa:ps.getPmsProductSaleAttrList()){
+                pa.setPmsProductSaleAttrValueList(pmsProductSaleAttrValueMapper.
+                        selectPmsProductSaleAttrValue(ps.getId(),pa.getId()));
+            }
+        }
         pageBean.setLists(lsit);
         return pageBean;
     }

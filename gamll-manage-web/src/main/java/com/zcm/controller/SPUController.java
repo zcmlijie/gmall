@@ -41,12 +41,24 @@ public class SPUController {
         return R.ok().data("data",pmsBaseSaleAtt).message("平台的销售属性");
     }
 
+    /**
+     * 上传图片到fastdfs服务器上去
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public R singleFileUpload(@RequestParam("file") MultipartFile[] file) throws IOException {
         List<PmsProductImage> listPath=saveFileAll(file);
         spuServcie.savaBatch(listPath);
         return R.setResult(SUCCESS).data("path",listPath);
     }
+
+    /**
+     * 添加商品的spu
+     * @param pmsProductInfo
+     * @return
+     */
     @RequestMapping(value = "/savaSPU",method = RequestMethod.POST)
     public R SaveSPU(@RequestBody PmsProductInfo pmsProductInfo){
         Integer row=spuServcie.savePmsProcuct(pmsProductInfo);
@@ -74,6 +86,7 @@ public class SPUController {
             fastDFSFile.setName(fileName);
             fastDFSFile.setExt(ext);
             fastDFSFile.setContent(file_buff);
+            //获取上传图片的名称
             pmsProductImage.setImgName(fileName);
             listImage.add(pmsProductImage);
             list.add(fastDFSFile);
@@ -87,6 +100,7 @@ public class SPUController {
         /*if (fileAbsolutePath==null) {
             logger.error("upload file failed,please upload again!");
         }*/
+        //获取上传图片的路径
         for(int i=0;i<fileAbsolutePath.size();i++){
             String path=FastDFSClient.getTrackerUrl()+fileAbsolutePath.get(i)[0]+ "/"+fileAbsolutePath.get(i)[1];
             listImage.get(i).setImgUrl(path);

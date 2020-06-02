@@ -92,4 +92,12 @@
         )
       </foreach>
   </insert>
+  <!--销售属性值-->
+  <select id="selectPmsProductSaleAttrValue"
+          resultType="com.zcm.bean.PmsProductSaleAttrValue">
+    select id, product_id productId, sale_attr_id saleAttrId,
+    sale_attr_value_name saleAttrValueName
+    from pms_product_sale_attr_value
+    where product_id=#{productId} and sale_attr_id=#{saleId}
+  </select>
 </mapper>

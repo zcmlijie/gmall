@@ -18,4 +18,6 @@ public interface PmsProductSaleAttrMapper {
     int updateByPrimaryKey(PmsProductSaleAttr record);
 
     Integer insertBatch(List<PmsProductSaleAttr> pmsProductSaleAttr);
+
+    List<PmsProductSaleAttr> slectPmsProductSaleAttr(Integer productId);
 }
