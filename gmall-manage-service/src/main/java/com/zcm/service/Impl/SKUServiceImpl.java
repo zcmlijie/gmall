@@ -6,6 +6,8 @@ import com.zcm.dao.*;
 import com.zcm.service.SKUService;
 import message.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import sun.rmi.server.InactiveGroupException;
 
 import java.util.List;
 @Service
@@ -14,12 +16,18 @@ public class SKUServiceImpl implements SKUService {
     PmsBaseAttInfoMapper pmsBaseAttInfoMapper;
     @Autowired
     PmsBaseAttValueMapper pmsBaseAttValueMapper;
-   @Autowired
+    @Autowired
     PmsProductSaleAttrMapper pmsProductSaleAttrMapper;
-   @Autowired
+    @Autowired
     PmsProductSaleAttrValueMapper pmsProductSaleAttrValueMapper;
-   @Autowired
+    @Autowired
     PmsSkuImageMapper pmsSkuImageMapper;
+    @Autowired
+    PmsSkuInfoMapper pmsSkuInfoMapper;
+    @Autowired
+    PmsSkuSaleAttrValueMapper skuSaleAttrValueMapper;
+    @Autowired
+    PmsSkuAttValueMapper pmsSkuAttValueMapper;
     /**
      * sku的平台属性和属性值
      * @return
@@ -89,6 +97,51 @@ public class SKUServiceImpl implements SKUService {
          }
 
      }
+    }
+
+    /**
+     * 保存sku数据
+     * @param pmsSkuInfo
+     */
+    @Override
+    @Transactional
+    public void svaePmsSkuInfo(PmsSkuInfo pmsSkuInfo) {
+        if(pmsSkuInfo!=null){
+           if(pmsSkuInfo.getId()!=null){
+             //修改
+            Integer row=pmsSkuInfoMapper.updateByPrimaryKey(pmsSkuInfo);
+           } else {
+              //保存
+               Integer row=pmsSkuInfoMapper.insert(pmsSkuInfo);
+               if(row>0){
+                   Integer skuId=pmsSkuInfo.getId();
+                   List<PmsSkuSaleAttrValue> pmsSkuSaleAttrValues=pmsSkuInfo.getPmsSkuSaleAttrValues();
+                   if(pmsSkuSaleAttrValues!=null&&pmsSkuSaleAttrValues.size()>0){
+                       for(PmsSkuSaleAttrValue pmsSkuSaleAttrValue:pmsSkuSaleAttrValues){
+                           pmsSkuSaleAttrValue.setSkuId(skuId);
+                           Integer pmsSkuSaleAttrValueRow=skuSaleAttrValueMapper.insert(pmsSkuSaleAttrValue);
+                       }
+                   }
+                  List<PmsSkuAttValue> pmsSkuAttValues=pmsSkuInfo.getPmsSkuAttValueList();
+                   if(pmsSkuAttValues!=null&&pmsSkuAttValues.size()>0){
+                       for(PmsSkuAttValue pmsSkuAttValue:pmsSkuAttValues){
+                           pmsSkuAttValue.setSkuId(skuId);
+                           Integer pmsSkuAttValueRow=pmsSkuAttValueMapper.insert(pmsSkuAttValue);
+                       }
+                   }
+
+                   List<PmsSkuImage> pmsSkuImageList=pmsSkuInfo.getPmsSkuImages();
+                   if(pmsSkuImageList!=null&& pmsSkuImageList.size()>0){
+                       for(PmsSkuImage pmsSkuImage:pmsSkuImageList){
+                           pmsSkuImage.setSkuId(skuId);
+                           Integer pmsSkuImageRow=pmsSkuImageMapper.insert(pmsSkuImage);
+                       }
+                   }
+
+               }
+           }
+        }
+
     }
 
 }

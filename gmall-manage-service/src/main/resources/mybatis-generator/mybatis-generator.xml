@@ -37,7 +37,7 @@
         </javaClientGenerator>
         <!--生成对应表及类名-->
         <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
-        <table tableName="pms_sku_image" domainObjectName="PmsSkuImage"
+        <table tableName="pms_sku_sale_attr_value" domainObjectName="PmsSkuSaleAttrValue"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

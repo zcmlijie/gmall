@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcm.dao.PmsSkuInfoMapper">
+  <resultMap id="BaseResultMap" type="com.zcm.bean.PmsSkuInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="sku_name" jdbcType="VARCHAR" property="skuName" />
+    <result column="sku_desc" jdbcType="VARCHAR" property="skuDesc" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="tm_id" jdbcType="INTEGER" property="tmId" />
+    <result column="catalog3_id" jdbcType="INTEGER" property="catalog3Id" />
+    <result column="sku_default_img" jdbcType="VARCHAR" property="skuDefaultImg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, product_id, price, sku_name, sku_desc, weight, tm_id, catalog3_id, sku_default_img
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pms_sku_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pms_sku_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.zcm.bean.PmsSkuInfo"
+          useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into pms_sku_info (id, product_id, price,
+      sku_name, sku_desc, weight,
+      tm_id, catalog3_id, sku_default_img
+      )
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{price,jdbcType=INTEGER},
+      #{skuName,jdbcType=VARCHAR}, #{skuDesc,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL},
+      #{tmId,jdbcType=INTEGER}, #{catalog3Id,jdbcType=INTEGER}, #{skuDefaultImg,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zcm.bean.PmsSkuInfo">
+    insert into pms_sku_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="skuName != null">
+        sku_name,
+      </if>
+      <if test="skuDesc != null">
+        sku_desc,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="tmId != null">
+        tm_id,
+      </if>
+      <if test="catalog3Id != null">
+        catalog3_id,
+      </if>
+      <if test="skuDefaultImg != null">
+        sku_default_img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="skuName != null">
+        #{skuName,jdbcType=VARCHAR},
+      </if>
+      <if test="skuDesc != null">
+        #{skuDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="tmId != null">
+        #{tmId,jdbcType=INTEGER},
+      </if>
+      <if test="catalog3Id != null">
+        #{catalog3Id,jdbcType=INTEGER},
+      </if>
+      <if test="skuDefaultImg != null">
+        #{skuDefaultImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zcm.bean.PmsSkuInfo">
+    update pms_sku_info
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="skuName != null">
+        sku_name = #{skuName,jdbcType=VARCHAR},
+      </if>
+      <if test="skuDesc != null">
+        sku_desc = #{skuDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="tmId != null">
+        tm_id = #{tmId,jdbcType=INTEGER},
+      </if>
+      <if test="catalog3Id != null">
+        catalog3_id = #{catalog3Id,jdbcType=INTEGER},
+      </if>
+      <if test="skuDefaultImg != null">
+        sku_default_img = #{skuDefaultImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zcm.bean.PmsSkuInfo">
+    update pms_sku_info
+    set product_id = #{productId,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      sku_name = #{skuName,jdbcType=VARCHAR},
+      sku_desc = #{skuDesc,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      tm_id = #{tmId,jdbcType=INTEGER},
+      catalog3_id = #{catalog3Id,jdbcType=INTEGER},
+      sku_default_img = #{skuDefaultImg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

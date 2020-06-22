@@ -1,10 +1,7 @@
 package com.zcm.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.zcm.bean.PmsBaseAttInfo;
-import com.zcm.bean.PmsProductImage;
-import com.zcm.bean.PmsProductSaleAttr;
-import com.zcm.bean.PmsSkuImage;
+import com.zcm.bean.*;
 import com.zcm.fastdfs.FastDFSClient;
 import com.zcm.fastdfs.FastDFSFile;
 import com.zcm.service.SKUService;
@@ -65,6 +62,19 @@ public class SKUController {
         return map;
     }
 
+    /**
+     * 保存sku信息
+     * @param pmsSkuInfo
+     * @return
+     */
+    @RequestMapping(value = "/savaSkuInfo",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,R> saveSkuInfo(@RequestBody PmsSkuInfo pmsSkuInfo){
+        Map<String,R> map=new HashMap<>();
+        skuService.svaePmsSkuInfo(pmsSkuInfo);
+        map.put("data",R.ok().message("保存成功"));
+      return map;
+    }
 
     public PmsSkuImage saveFile(MultipartFile multipartFile) throws IOException {
         String path="";
