@@ -1,9 +1,13 @@
 package com.zcm.service.Impl;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.zcm.bean.*;
 import com.zcm.dao.*;
 import com.zcm.service.SKUService;
+import com.zcm.util.RedisUtil;
 import message.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +34,8 @@ public class SKUServiceImpl implements SKUService {
     PmsSkuSaleAttrValueMapper skuSaleAttrValueMapper;
     @Autowired
     PmsSkuAttValueMapper pmsSkuAttValueMapper;
+    @Autowired
+    RedisUtil redisUtil;
     /**
      * sku的平台属性和属性值
      * @return
@@ -145,44 +151,83 @@ public class SKUServiceImpl implements SKUService {
         }
 
     }
-
+   private static  final String GETSKUINFO002="getSkuInfo002";
     @Override
     public PmsSkuInfo getSkuInfoBySkuId(Integer skuId) {
-        if(skuId!=null){
-            PmsSkuInfo pmsSkuInfo=pmsSkuInfoMapper.selectByPrimaryKey(skuId);
-            //图片集合
-            if(pmsSkuInfo!=null){
-             List<PmsSkuImage> pmsSkuImageList=pmsSkuImageMapper.selectSkuImageBySkuId(skuId);
-                pmsSkuInfo.setPmsSkuImages(pmsSkuImageList);
-                //sku的销售属性
-             List<PmsSkuSaleAttrValue> pmsSkuSaleAttrValues=
-                     skuSaleAttrValueMapper.selectSkuSaleAttrValeu(skuId);
-             pmsSkuInfo.setPmsSkuSaleAttrValues(pmsSkuSaleAttrValues);
-             //sku的平台属性
-             List<PmsSkuAttValue> pmsSkuAttValues=
-                     pmsSkuAttValueMapper.selectPmsSkuAttValueBySkuId(skuId);
-             pmsSkuInfo.setPmsSkuAttValueList(pmsSkuAttValues);
+        String json=redisUtil.get(GETSKUINFO002,0);
+        if(json!=null){
+           if(!StringUtils.isEmpty(json)) {
+               PmsSkuInfo pmsSkuInfo=JSON.parseObject(json,PmsSkuInfo.class);
+               return pmsSkuInfo;
+           }
+        }else {
+            if(skuId!=null){
+                PmsSkuInfo pmsSkuInfo=pmsSkuInfoMapper.selectByPrimaryKey(skuId);
+                //图片集合
+                if(pmsSkuInfo!=null){
+                    List<PmsSkuImage> pmsSkuImageList=pmsSkuImageMapper.selectSkuImageBySkuId(skuId);
+                    pmsSkuInfo.setPmsSkuImages(pmsSkuImageList);
+                    //sku的销售属性
+                    List<PmsSkuSaleAttrValue> pmsSkuSaleAttrValues=
+                            skuSaleAttrValueMapper.selectSkuSaleAttrValeu(skuId);
+                    pmsSkuInfo.setPmsSkuSaleAttrValues(pmsSkuSaleAttrValues);
+                    //sku的平台属性
+                    List<PmsSkuAttValue> pmsSkuAttValues=
+                            pmsSkuAttValueMapper.selectPmsSkuAttValueBySkuId(skuId);
+                    pmsSkuInfo.setPmsSkuAttValueList(pmsSkuAttValues);
+                }
+                String strJson=JSON.toJSONString(pmsSkuInfo);
+                redisUtil.set(GETSKUINFO002,strJson,0);
+                return pmsSkuInfo;
             }
-            return pmsSkuInfo;
         }
+
         return null;
     }
-
+    private static final String GETSKUINFO001="getSkuInfo001";
     @Override
     public List<PmsSkuInfo> getSkuInfoByProductId(Integer productId) {
-        if(productId!=null){
-            List<PmsSkuInfo> pmsSkuInfoList=pmsSkuInfoMapper.selectPmsSkuSaleAttrBySpuId(productId);
-            return pmsSkuInfoList;
+        Boolean exists=redisUtil.exists(GETSKUINFO001);
+        if(exists){
+            String json=redisUtil.get(GETSKUINFO001,0);
+            if(json!=null){
+                //内存中存在值
+                if(!StringUtils.isEmpty(json)){
+                    List<PmsSkuInfo> pmsSkuInfos = JSON.parseArray(json,PmsSkuInfo.class); //直接用这个方法 然后就能把他转成曾经存入的样子 就是一个list的格式
+                    return pmsSkuInfos;
+                }
+            }
+
+        }else {
+            //内存中不存在值，查询硬盘中的值
+            if(productId!=null){
+                List<PmsSkuInfo> pmsSkuInfoList=pmsSkuInfoMapper.selectPmsSkuSaleAttrBySpuId(productId);
+                String strJson = JSON.toJSONString(pmsSkuInfoList);
+                redisUtil.set(GETSKUINFO001,strJson,0);
+                return pmsSkuInfoList;
+            }
         }
+
         return null;
     }
-
+    private static final String GETSALEATTR001="getSaleAttr001";
     @Override
     public List<Map<String, String>> getSaleAttrName(Integer productId) {
-        if(productId!=null){
-            List<Map<String,String>> mapList=pmsSkuInfoMapper.selectPmsSkuSaleAttrName(productId);
-            return mapList;
+        String json=redisUtil.get(GETSALEATTR001,0);
+        if(json!=null){
+            if(!StringUtils.isEmpty(json)){
+                List<Map<String,String>> mapList=JSON.parseObject(json, new TypeReference<List<Map<String, String>>>() {});
+                return mapList;
+            }
+        }else {
+            if(productId!=null){
+                List<Map<String,String>> mapList=pmsSkuInfoMapper.selectPmsSkuSaleAttrName(productId);
+                String strjson=JSON.toJSONString(mapList);
+                redisUtil.set(GETSALEATTR001,strjson,0);
+                return mapList;
+            }
         }
+
         return null;
     }
 
