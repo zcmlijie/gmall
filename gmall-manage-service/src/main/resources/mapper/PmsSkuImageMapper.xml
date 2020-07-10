@@ -115,4 +115,11 @@
     , product_img_id as productImgId, is_default as isDefault from pms_sku_image
     where is_default=#{isDefault}
   </select>
+  <!--根据skuid查询图片集合-->
+  <select id="selectSkuImageBySkuId" resultType="com.zcm.bean.PmsSkuImage"
+          parameterType="java.lang.Integer">
+    select id, sku_id as skuId, img_name as imgName , img_url as imgUrl
+    , product_img_id as productImgId, is_default as isDefault from pms_sku_image
+    where sku_id=#{skuId}
+  </select>
 </mapper>

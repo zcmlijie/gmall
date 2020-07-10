@@ -6,6 +6,7 @@ import com.zcm.bean.PmsSkuImage;
 import com.zcm.bean.PmsSkuInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SKUService {
     List<PmsBaseAttInfo> getPmsBaseAttInfo();
@@ -23,4 +24,16 @@ public interface SKUService {
      * @param pmsSkuInfo
      */
     void svaePmsSkuInfo(PmsSkuInfo pmsSkuInfo);
+
+    /**
+     * 根据skuid获取sku详情信息
+     * @param skuId
+     * @return
+     */
+    PmsSkuInfo getSkuInfoBySkuId(Integer skuId);
+
+    List<PmsSkuInfo> getSkuInfoByProductId(Integer productId);
+
+    List<Map<String,String>> getSaleAttrName(Integer productId);
+
 }

@@ -112,4 +112,10 @@ public class SPUServiceImpl implements SPUServcie {
 
         return null;
     }
+
+    @Override
+    public List<PmsProductSaleAttr> getPmsProductSaleAttrBySkuIdAndProductId(Integer skuId, Integer productId) {
+        List<PmsProductSaleAttr> pmsProductSaleAttrs=pmsProductSaleAttrMapper.selectPmsProductSaleAttrBySkuIdAndProductId(skuId, productId);
+        return pmsProductSaleAttrs;
+    }
 }

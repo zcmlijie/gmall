@@ -1,6 +1,7 @@
 package com.zcm.service;
 
 import com.zcm.bean.*;
+import sun.rmi.server.InactiveGroupException;
 
 import java.util.List;
 import java.util.Map;
@@ -39,4 +40,12 @@ public interface SPUServcie {
      * @return
      */
     Integer savePmsProcuct(PmsProductInfo pmsProductInfo);
+
+    /**
+     * 根据商品id和skuid预处理
+     * @param skuId
+     * @param productId
+     * @return
+     */
+    List<PmsProductSaleAttr> getPmsProductSaleAttrBySkuIdAndProductId(Integer skuId,Integer productId);
 }

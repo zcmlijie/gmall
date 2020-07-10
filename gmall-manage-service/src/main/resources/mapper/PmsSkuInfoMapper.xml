@@ -140,4 +140,33 @@
       sku_default_img = #{skuDefaultImg,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectPmsSkuSaleAttrBySpuId" parameterType="java.lang.Integer"
+  resultMap="selectPmsSkuSaleAttr">
+SELECT
+	psi.*, psi.id skuId ,
+    pssav.*,pssav.id skuAttrId
+FROM
+	 pms_sku_info psi
+JOIN pms_sku_sale_attr_value pssav ON psi.id = pssav.sku_id
+WHERE
+	psi.product_id = #{productId}
+ORDER BY psi.id DESC
+  </select>
+  <resultMap id="selectPmsSkuSaleAttr" type="com.zcm.bean.PmsSkuInfo" autoMapping="true">
+    <result column="skuId" property="id"></result>
+    <collection property="pmsSkuSaleAttrValues" ofType="com.zcm.bean.PmsSkuSaleAttrValue" autoMapping="true">
+      <result column="skuAttrId" property="id"></result>
+    </collection>
+  </resultMap>
+  <select id="selectPmsSkuSaleAttrName" parameterType="java.lang.Integer" resultType="java.util.Map">
+   SELECT
+	pssav.sale_attr_name,pssav.sale_attr_id
+FROM
+	pms_sku_info psi
+JOIN pms_sku_sale_attr_value pssav ON psi.id = pssav.sku_id
+WHERE
+	psi.product_id = #{productId}
+GROUP BY
+	pssav.sale_attr_name,pssav.sale_attr_id
+  </select>
 </mapper>

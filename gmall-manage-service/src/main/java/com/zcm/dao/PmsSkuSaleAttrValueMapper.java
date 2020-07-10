@@ -2,6 +2,8 @@ package com.zcm.dao;
 
 import com.zcm.bean.PmsSkuSaleAttrValue;
 
+import java.util.List;
+
 public interface PmsSkuSaleAttrValueMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface PmsSkuSaleAttrValueMapper {
     int updateByPrimaryKeySelective(PmsSkuSaleAttrValue record);
 
     int updateByPrimaryKey(PmsSkuSaleAttrValue record);
+
+    List<PmsSkuSaleAttrValue> selectSkuSaleAttrValeu(Integer skuId);
 }

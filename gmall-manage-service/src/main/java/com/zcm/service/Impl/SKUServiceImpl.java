@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import sun.rmi.server.InactiveGroupException;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class SKUServiceImpl implements SKUService {
     @Autowired
@@ -142,6 +144,46 @@ public class SKUServiceImpl implements SKUService {
            }
         }
 
+    }
+
+    @Override
+    public PmsSkuInfo getSkuInfoBySkuId(Integer skuId) {
+        if(skuId!=null){
+            PmsSkuInfo pmsSkuInfo=pmsSkuInfoMapper.selectByPrimaryKey(skuId);
+            //图片集合
+            if(pmsSkuInfo!=null){
+             List<PmsSkuImage> pmsSkuImageList=pmsSkuImageMapper.selectSkuImageBySkuId(skuId);
+                pmsSkuInfo.setPmsSkuImages(pmsSkuImageList);
+                //sku的销售属性
+             List<PmsSkuSaleAttrValue> pmsSkuSaleAttrValues=
+                     skuSaleAttrValueMapper.selectSkuSaleAttrValeu(skuId);
+             pmsSkuInfo.setPmsSkuSaleAttrValues(pmsSkuSaleAttrValues);
+             //sku的平台属性
+             List<PmsSkuAttValue> pmsSkuAttValues=
+                     pmsSkuAttValueMapper.selectPmsSkuAttValueBySkuId(skuId);
+             pmsSkuInfo.setPmsSkuAttValueList(pmsSkuAttValues);
+            }
+            return pmsSkuInfo;
+        }
+        return null;
+    }
+
+    @Override
+    public List<PmsSkuInfo> getSkuInfoByProductId(Integer productId) {
+        if(productId!=null){
+            List<PmsSkuInfo> pmsSkuInfoList=pmsSkuInfoMapper.selectPmsSkuSaleAttrBySpuId(productId);
+            return pmsSkuInfoList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Map<String, String>> getSaleAttrName(Integer productId) {
+        if(productId!=null){
+            List<Map<String,String>> mapList=pmsSkuInfoMapper.selectPmsSkuSaleAttrName(productId);
+            return mapList;
+        }
+        return null;
     }
 
 }

@@ -25,4 +25,11 @@ public interface PmsSkuImageMapper {
      */
     List<PmsSkuImage> selectByisDefault(String isDefault);
 
+    /**
+     * 根据skuid查询图片集合
+     * @param skuId
+     * @return
+     */
+    List<PmsSkuImage> selectSkuImageBySkuId(Integer skuId);
+
 }

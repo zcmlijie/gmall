@@ -1,6 +1,7 @@
 package com.zcm.dao;
 
 import com.zcm.bean.PmsProductSaleAttr;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface PmsProductSaleAttrMapper {
     Integer insertBatch(List<PmsProductSaleAttr> pmsProductSaleAttr);
 
     List<PmsProductSaleAttr> slectPmsProductSaleAttr(Integer productId);
+
+    List<PmsProductSaleAttr> selectPmsProductSaleAttrBySkuIdAndProductId(@Param("skuId") Integer skuId, @Param("productId") Integer productId);
 }

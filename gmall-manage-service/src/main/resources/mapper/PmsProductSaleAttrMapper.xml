@@ -104,4 +104,32 @@
      from pms_product_sale_attr
      where product_id=#{productId};
   </select>
+
+  <select id="selectPmsProductSaleAttrBySkuIdAndProductId" parameterType="java.lang.Integer"
+          resultMap="PmsProductSaleAttrBySkuIdAndProductId">
+SELECT
+sa.*,sa.id sa_id,
+sv.*,sv.id sv_id,
+IF (skv.sku_id IS NOT NULL, 1, 0) is_check
+FROM
+	 pms_product_sale_attr sa
+JOIN pms_product_sale_attr_value sv ON sa.id = sv.sale_attr_id
+LEFT JOIN pms_sku_sale_attr_value skv ON skv.sale_attr_id = sa.id
+AND skv.sale_attr_value_id = sv.id
+AND skv.sku_id = #{skuId}
+WHERE
+	sa.product_id = #{productId}
+ORDER BY
+	sv.sale_attr_id,
+	sv.id
+  </select>
+  <resultMap id="PmsProductSaleAttrBySkuIdAndProductId"
+             type="com.zcm.bean.PmsProductSaleAttr" autoMapping="true">
+<result column="sa_id" property="id"></result>
+      <collection property="pmsProductSaleAttrValueList"
+                ofType="com.zcm.bean.PmsProductSaleAttrValue" autoMapping="true">
+        <result column="sv_id" property="id"></result>
+        <result column="is_check" property="is_check"></result>
+    </collection>
+  </resultMap>
 </mapper>

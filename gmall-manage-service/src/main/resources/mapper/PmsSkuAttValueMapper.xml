@@ -79,4 +79,9 @@
       sku_id = #{skuId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectPmsSkuAttValueBySkuId" resultMap="BaseResultMap"
+          parameterType="java.lang.Integer">
+    select * from pms_sku_attr_value
+    where sku_id=#{skuId}
+  </select>
 </mapper>

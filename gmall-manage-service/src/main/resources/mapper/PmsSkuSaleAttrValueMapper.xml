@@ -103,4 +103,12 @@
       sale_attr_value_name = #{saleAttrValueName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--通过skuid查询sku的销售属性-->
+  <select id="selectSkuSaleAttrValeu" resultMap="BaseResultMap"
+  parameterType="java.lang.Integer">
+ select *
+ from pms_sku_sale_attr_value
+ where sku_id=#{skuId}
+
+  </select>
 </mapper>

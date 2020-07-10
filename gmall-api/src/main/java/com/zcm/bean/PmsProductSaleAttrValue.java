@@ -1,5 +1,6 @@
 package com.zcm.bean;
 
+import javax.persistence.Transient;
 import javax.sql.rowset.serial.SerialArray;
 import java.io.Serializable;
 
@@ -12,6 +13,8 @@ public class PmsProductSaleAttrValue implements Serializable {
     private Integer saleAttrId;
 
     private String saleAttrValueName;
+    @Transient
+    private Integer is_check;
 
     public Integer getId() {
         return id;
@@ -43,5 +46,13 @@ public class PmsProductSaleAttrValue implements Serializable {
 
     public void setSaleAttrValueName(String saleAttrValueName) {
         this.saleAttrValueName = saleAttrValueName == null ? null : saleAttrValueName.trim();
+    }
+
+    public Integer getIs_check() {
+        return is_check;
+    }
+
+    public void setIs_check(Integer is_check) {
+        this.is_check = is_check;
     }
 }
