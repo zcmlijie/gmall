@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +22,6 @@ import java.util.Map;
 
 
 @Controller
-
 public class ItemController {
     @Reference
     SKUService skuService;
@@ -64,6 +65,12 @@ public class ItemController {
             modelMap.put("code", -1);
         }
         return "shangpinxiangqing";
+    }
+    @RequestMapping(value = "/test",method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean test(Long productId){
+       Boolean result= spuServcie.decrementProductStore(productId);
+        return result;
     }
     @RequestMapping(name = "/index")
     public String index(ModelMap modelMap){

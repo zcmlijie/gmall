@@ -1,5 +1,9 @@
 package com.zcm.conf;
 
+import org.apache.commons.lang3.StringUtils;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +35,7 @@ public class RedisConfig {
 
     @Value("${spring.redis.block-when-exhausted}")
     private boolean  blockWhenExhausted;
-
+    //redis连接池
     @Bean
     public JedisPool redisPoolFactory()  throws Exception{
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
@@ -44,4 +48,6 @@ public class RedisConfig {
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
         return jedisPool;
     }
+
+
 }

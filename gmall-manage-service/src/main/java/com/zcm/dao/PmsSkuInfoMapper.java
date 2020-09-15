@@ -26,4 +26,10 @@ public interface PmsSkuInfoMapper {
      * @return
      */
     List<Map<String,String>> selectPmsSkuSaleAttrName(Integer productId);
+
+    /**
+     * 查询skuInfo的所有数据
+     * @return
+     */
+    List<PmsSkuInfo> selectSkuInfoAll();
 }

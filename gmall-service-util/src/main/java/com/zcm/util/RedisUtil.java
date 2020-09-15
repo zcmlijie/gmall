@@ -15,6 +15,7 @@ import redis.clients.jedis.BinaryClient.LIST_POSITION;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.SortingParams;
+import redis.clients.jedis.Transaction;
 
 @Component
 @Slf4j
@@ -95,6 +96,30 @@ public class RedisUtil{
             jedis = jedisPool.getResource();
             jedis.select(indexdb);
             return jedis.set(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        } finally {
+            returnResource(jedisPool, jedis);
+        }
+    }
+
+    /**
+     *redis自带的分布式锁nx，单位为毫秒px
+     *
+     * @param key
+     * @param value
+     * @param nxxx
+     * @param expx
+     * @param time
+     * @return
+     */
+    public String setnxAndpx(String key, String value, String nxxx, String expx,
+                             long time) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.set(key,value,nxxx,expx,time);
         } catch (Exception e) {
             e.printStackTrace();
             return "0";

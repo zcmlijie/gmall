@@ -3,7 +3,7 @@ package com.zcm.bean;
 import java.io.Serializable;
 
 /**
- * sku平台销售属性
+ * sku平台属性
  */
 public class PmsSkuAttValue implements Serializable {
     private Integer id;

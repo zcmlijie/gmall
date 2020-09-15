@@ -230,5 +230,32 @@ public class SKUServiceImpl implements SKUService {
 
         return null;
     }
+private static final String SKUINFOALL="skuInfo_0001";
+    @Override
+    public List<PmsSkuInfo> getskuAll() {
+        String json=redisUtil.get(SKUINFOALL,0);
+        if(json!=null){
+            if(StringUtils.isNotEmpty(json)){
+               List<PmsSkuInfo> list=JSON.parseArray(json,PmsSkuInfo.class);
+               return list;
+            }
+        }else {
+            List<PmsSkuInfo> pmsSkuInfoList = pmsSkuInfoMapper.selectSkuInfoAll();
+            if(pmsSkuInfoList!=null&&pmsSkuInfoList.size()>0) {
+                for (PmsSkuInfo skuInfo : pmsSkuInfoList) {
+                    List<PmsSkuAttValue> pmsSkuAttValues = pmsSkuAttValueMapper.selectPmsSkuAttValueBySkuId(skuInfo.getId());
+                    skuInfo.setPmsSkuAttValueList(pmsSkuAttValues);
+                    List<PmsSkuImage> pmsSkuImageList = pmsSkuImageMapper.selectSkuImageBySkuId(skuInfo.getId());
+                    skuInfo.setPmsSkuImages(pmsSkuImageList);
+                    List<PmsSkuSaleAttrValue> pmsSkuSaleAttrValues = skuSaleAttrValueMapper.selectSkuSaleAttrValeu(skuInfo.getId());
+                    skuInfo.setPmsSkuSaleAttrValues(pmsSkuSaleAttrValues);
+                }
+            }
+            String jsonStr=JSON.toJSONString(pmsSkuInfoList);
+            redisUtil.set(SKUINFOALL,jsonStr,0);
+            return pmsSkuInfoList;
+        }
+        return null;
+    }
 
 }

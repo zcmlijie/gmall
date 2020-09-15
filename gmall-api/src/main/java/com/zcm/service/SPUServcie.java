@@ -48,4 +48,6 @@ public interface SPUServcie {
      * @return
      */
     List<PmsProductSaleAttr> getPmsProductSaleAttrBySkuIdAndProductId(Integer skuId,Integer productId);
+
+    Boolean decrementProductStore(Long productId);
 }

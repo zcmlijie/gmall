@@ -9,8 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 public interface SKUService {
+    /**
+     * 获取商品sku的对应的平台属性
+     * @return
+     */
     List<PmsBaseAttInfo> getPmsBaseAttInfo();
 
+    /**
+     * sku的销售属性
+     * @param productId
+     * @return
+     */
     List<PmsProductSaleAttr> getPmsProductSaleAtt(Integer productId);
 
     /**
@@ -35,5 +44,5 @@ public interface SKUService {
     List<PmsSkuInfo> getSkuInfoByProductId(Integer productId);
 
     List<Map<String,String>> getSaleAttrName(Integer productId);
-
+    List<PmsSkuInfo> getskuAll();
 }

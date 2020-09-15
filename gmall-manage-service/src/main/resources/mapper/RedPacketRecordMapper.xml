@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zcm.dao.RedPacketRecordMapper">
+  <resultMap id="BaseResultMap" type="com.zcm.bean.RedPacketRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="red_packet_id" jdbcType="BIGINT" property="redPacketId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, amount, nick_name, img_url, uid, red_packet_id, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from red_packet_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from red_packet_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zcm.bean.RedPacketRecord">
+    insert into red_packet_record (id, amount, nick_name,
+      img_url, uid, red_packet_id,
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR},
+      #{imgUrl,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{redPacketId,jdbcType=BIGINT},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zcm.bean.RedPacketRecord">
+    insert into red_packet_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="redPacketId != null">
+        red_packet_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="redPacketId != null">
+        #{redPacketId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zcm.bean.RedPacketRecord">
+    update red_packet_record
+    <set>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="redPacketId != null">
+        red_packet_id = #{redPacketId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zcm.bean.RedPacketRecord">
+    update red_packet_record
+    set amount = #{amount,jdbcType=INTEGER},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      red_packet_id = #{redPacketId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

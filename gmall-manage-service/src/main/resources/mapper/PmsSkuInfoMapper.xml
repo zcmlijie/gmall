@@ -169,4 +169,7 @@ WHERE
 GROUP BY
 	pssav.sale_attr_name,pssav.sale_attr_id
   </select>
+  <select id="selectSkuInfoAll" resultType="com.zcm.bean.PmsSkuInfo">
+    SELECT * FROM pms_sku_info
+  </select>
 </mapper>
